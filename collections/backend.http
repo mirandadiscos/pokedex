@@ -1,0 +1,28 @@
+##TO USE THIS FILE INSTALL EXTENTION 'HTTP CLIENT' IN YOUR VSCODE
+
+@baseUrl = http://localhost:3001
+@apiUrl = {{baseUrl}}/api
+
+### Health Check
+GET {{baseUrl}}/health
+
+### List Pokemons (default)
+GET {{apiUrl}}/pokemons
+
+### List Pokemons (pagination)
+GET {{apiUrl}}/pokemons?page=1&pageSize=10
+
+### List Pokemons (search)
+GET {{apiUrl}}/pokemons?page=1&pageSize=10&search=pika
+
+### List Pokemons (sort asc)
+GET {{apiUrl}}/pokemons?page=1&pageSize=10&sort=name&orientation=asc
+
+### List Pokemons (sort desc)
+GET {{apiUrl}}/pokemons?page=1&pageSize=10&sort=total&orientation=desc
+
+### Get Pokemon by ID
+GET {{apiUrl}}/pokemons/25
+
+### Get Pokemon by invalid ID (validation error)
+GET {{apiUrl}}/pokemons/abc
