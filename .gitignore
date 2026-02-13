@@ -1,0 +1,12 @@
+backend/node_modules/
+frontend/node_modules/
+backend/dist
+frontend/dist
+.DS_Store
+dist/
+build/
+.env
+.env.local
+.env.development
+.env.test
+*.sql
