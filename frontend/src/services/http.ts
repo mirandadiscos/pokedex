@@ -59,9 +59,7 @@ export async function httpGet<T>(path: string, query?: QueryInput): Promise<T> {
       code = payload.code
       requestId = payload.requestId
       details = payload.details
-    } catch {
-      // Ignore JSON parse failures and use default message.
-    }
+    } catch {}
 
     throw new HttpRequestError(response.status, message, { code, requestId, details })
   }
