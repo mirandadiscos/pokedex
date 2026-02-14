@@ -2,41 +2,13 @@ import { httpGet } from './http'
 import type { PaginatedResponse } from '../../../contracts/pagination.types'
 import type { Pokemon, PokemonListQuery } from '../../../contracts/pokemon.types'
 import { serializeQueryKey } from '../utils/queryParams'
-
-interface CacheEntry<T> {
-  data: T
-  expiresAt: number
-}
+import { getValidCache, normalizeListQuery } from './utils/pokemonService.utils'
+import type { CacheEntry } from './utils/pokemonService.utils'
 
 const CACHE_TTL_MS = 5 * 60 * 1000
 
 const LIST_CACHE = new Map<string, CacheEntry<PaginatedResponse<Pokemon>>>()
 const DETAIL_CACHE = new Map<number, CacheEntry<Pokemon>>()
-
-function getValidCache<T>(cache: Map<string | number, CacheEntry<T>>, key: string | number): T | null {
-  const cacheEntry = cache.get(key)
-
-  if (!cacheEntry) {
-    return null
-  }
-
-  if (cacheEntry.expiresAt <= Date.now()) {
-    cache.delete(key)
-    return null
-  }
-
-  return cacheEntry.data
-}
-
-function normalizeListQuery(query: PokemonListQuery): PokemonListQuery {
-  return {
-    page: query.page,
-    pageSize: query.pageSize,
-    search: query.search?.trim() ? query.search.trim() : undefined,
-    sortField: query.sortField,
-    sortDirection: query.sortDirection,
-  }
-}
 
 export async function listPokemons(
   query: PokemonListQuery,
