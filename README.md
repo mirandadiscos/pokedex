@@ -95,3 +95,11 @@ Backend:
 Frontend:
 
 - `VITE_API_BASE_URL` (padrao: `http://localhost:3001`)
+
+## Cache no frontend (breve)
+
+- O `pokemon.service` mantem cache em memoria para lista e detalhe.
+- TTL de 5 minutos por entrada.
+- Se a entrada expira, ela e removida na leitura.
+- `forceRefresh: true` ignora o cache e busca dados novos.
+- `clearPokemonCache()` limpa ambos os caches.
