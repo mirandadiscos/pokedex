@@ -1,13 +1,13 @@
 import { useState } from 'react'
 import type { ReactNode } from 'react'
 import { Outlet } from 'react-router-dom'
-import { HeaderSlotContext } from './HeaderSlotContext'
+import { HEADER_SLOT_CONTEXT } from './HeaderSlotContext'
 
 export function AppLayout() {
   const [headerContent, setHeaderContent] = useState<ReactNode>(null)
 
   return (
-    <HeaderSlotContext.Provider value={setHeaderContent}>
+    <HEADER_SLOT_CONTEXT.Provider value={setHeaderContent}>
       <div className="min-h-screen">
         <header className="border-b border-slate-200 bg-white/90 backdrop-blur">
           <div className="mx-auto w-full max-w-7xl px-4 py-3 sm:px-6 lg:px-8">
@@ -24,6 +24,6 @@ export function AppLayout() {
           <Outlet />
         </main>
       </div>
-    </HeaderSlotContext.Provider>
+    </HEADER_SLOT_CONTEXT.Provider>
   )
 }

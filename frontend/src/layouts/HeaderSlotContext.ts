@@ -3,10 +3,10 @@ import type { ReactNode } from 'react'
 
 type HeaderSlotSetter = (content: ReactNode) => void
 
-export const HeaderSlotContext = createContext<HeaderSlotSetter | null>(null)
+export const HEADER_SLOT_CONTEXT = createContext<HeaderSlotSetter | null>(null)
 
 export function useHeaderSlot(): HeaderSlotSetter {
-  const context = useContext(HeaderSlotContext)
+  const context = useContext(HEADER_SLOT_CONTEXT)
 
   if (!context) {
     throw new Error('useHeaderSlot deve ser usado dentro de AppLayout')

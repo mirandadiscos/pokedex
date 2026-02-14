@@ -4,49 +4,42 @@ interface PokemonStatsGridProps {
   pokemon: Pokemon
 }
 
-const statCardClass = 'rounded bg-slate-50 p-2'
-const statLabelClass = 'text-sm text-slate-500'
-const statValueClass = 'text-lg font-semibold text-slate-900'
+const STAT_CARD_CLASS = 'rounded bg-slate-50 p-2'
+const STAT_LABEL_CLASS = 'text-sm text-slate-500'
+const STAT_VALUE_CLASS = 'text-lg font-semibold text-slate-900'
+
+interface StatItemProps {
+  label: string
+  value: string | number
+}
+
+function StatItem({ label, value }: StatItemProps) {
+  return (
+    <div className={STAT_CARD_CLASS}>
+      <dt className={STAT_LABEL_CLASS}>{label}</dt>
+      <dd className={STAT_VALUE_CLASS}>{value}</dd>
+    </div>
+  )
+}
 
 export function PokemonStatsGrid({ pokemon }: PokemonStatsGridProps) {
+  const stats = [
+    { label: 'HP', value: pokemon.hp },
+    { label: 'Ataque', value: pokemon.attack },
+    { label: 'Defesa', value: pokemon.defense },
+    { label: 'Ataque Especial', value: pokemon.spAttack },
+    { label: 'Defesa Especial', value: pokemon.spDefense },
+    { label: 'Velocidade', value: pokemon.speed },
+    { label: 'Total', value: pokemon.total },
+    { label: 'Geração', value: pokemon.generation },
+    { label: 'Lendário', value: pokemon.legendary ? 'Sim' : 'Não' },
+  ]
+
   return (
     <dl className="mt-3 grid grid-cols-2 gap-2 md:grid-cols-3">
-      <div className={statCardClass}>
-        <dt className={statLabelClass}>HP</dt>
-        <dd className={statValueClass}>{pokemon.hp}</dd>
-      </div>
-      <div className={statCardClass}>
-        <dt className={statLabelClass}>Ataque</dt>
-        <dd className={statValueClass}>{pokemon.attack}</dd>
-      </div>
-      <div className={statCardClass}>
-        <dt className={statLabelClass}>Defesa</dt>
-        <dd className={statValueClass}>{pokemon.defense}</dd>
-      </div>
-      <div className={statCardClass}>
-        <dt className={statLabelClass}>Ataque Especial</dt>
-        <dd className={statValueClass}>{pokemon.spAttack}</dd>
-      </div>
-      <div className={statCardClass}>
-        <dt className={statLabelClass}>Defesa Especial</dt>
-        <dd className={statValueClass}>{pokemon.spDefense}</dd>
-      </div>
-      <div className={statCardClass}>
-        <dt className={statLabelClass}>Velocidade</dt>
-        <dd className={statValueClass}>{pokemon.speed}</dd>
-      </div>
-      <div className={statCardClass}>
-        <dt className={statLabelClass}>Total</dt>
-        <dd className={statValueClass}>{pokemon.total}</dd>
-      </div>
-      <div className={statCardClass}>
-        <dt className={statLabelClass}>Geração</dt>
-        <dd className={statValueClass}>{pokemon.generation}</dd>
-      </div>
-      <div className={statCardClass}>
-        <dt className={statLabelClass}>Lendário</dt>
-        <dd className={statValueClass}>{pokemon.legendary ? 'Sim' : 'Não'}</dd>
-      </div>
+      {stats.map((stat) => (
+        <StatItem key={stat.label} label={stat.label} value={stat.value} />
+      ))}
     </dl>
   )
 }

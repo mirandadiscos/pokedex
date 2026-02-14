@@ -10,8 +10,8 @@ interface CacheEntry<T> {
 
 const CACHE_TTL_MS = 5 * 60 * 1000
 
-const listCache = new Map<string, CacheEntry<PaginatedResponse<Pokemon>>>()
-const detailCache = new Map<number, CacheEntry<Pokemon>>()
+const LIST_CACHE = new Map<string, CacheEntry<PaginatedResponse<Pokemon>>>()
+const DETAIL_CACHE = new Map<number, CacheEntry<Pokemon>>()
 
 function getValidCache<T>(cache: Map<string | number, CacheEntry<T>>, key: string | number): T | null {
   const cacheEntry = cache.get(key)
@@ -47,7 +47,7 @@ export async function listPokemons(
   const cacheKey = serializeQueryKey(normalizedQueryRecord)
 
   if (!options?.forceRefresh) {
-    const cached = getValidCache(listCache, cacheKey)
+    const cached = getValidCache(LIST_CACHE, cacheKey)
     if (cached) {
       return cached
     }
@@ -55,7 +55,7 @@ export async function listPokemons(
 
   const data = await httpGet<PaginatedResponse<Pokemon>>('/api/pokemons', normalizedQueryRecord)
 
-  listCache.set(cacheKey, {
+  LIST_CACHE.set(cacheKey, {
     data,
     expiresAt: Date.now() + CACHE_TTL_MS,
   })
@@ -68,7 +68,7 @@ export async function getPokemonById(
   options?: { forceRefresh?: boolean },
 ): Promise<Pokemon> {
   if (!options?.forceRefresh) {
-    const cached = getValidCache(detailCache, id)
+    const cached = getValidCache(DETAIL_CACHE, id)
     if (cached) {
       return cached
     }
@@ -76,7 +76,7 @@ export async function getPokemonById(
 
   const data = await httpGet<Pokemon>(`/api/pokemons/${id}`)
 
-  detailCache.set(id, {
+  DETAIL_CACHE.set(id, {
     data,
     expiresAt: Date.now() + CACHE_TTL_MS,
   })
@@ -85,6 +85,6 @@ export async function getPokemonById(
 }
 
 export function clearPokemonCache(): void {
-  listCache.clear()
-  detailCache.clear()
+  LIST_CACHE.clear()
+  DETAIL_CACHE.clear()
 }
